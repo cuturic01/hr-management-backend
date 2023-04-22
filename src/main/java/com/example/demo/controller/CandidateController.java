@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CandidateDto;
+import com.example.demo.service.CandidateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "api/candidate")
 public class CandidateController {
 
+    @Autowired
+    private CandidateService candidateService;
+
     @PostMapping(value = "/add-candidate", consumes = "application/json")
-    public ResponseEntity<?> addCandidate(CandidateDto candidateDto) {
-        return null;
+    public ResponseEntity<?> addCandidate(@RequestBody @Validated CandidateDto candidateDto) {
+        return new ResponseEntity<>(candidateService.addCandidate(candidateDto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/update-skills/{candidate-id}/{skill-id}", consumes = "application/json")

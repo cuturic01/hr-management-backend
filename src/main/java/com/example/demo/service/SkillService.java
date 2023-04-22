@@ -12,9 +12,13 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
-    public SkillDto createSkill(SkillDto skillDto) {
+    public SkillDto addSkill(SkillDto skillDto) {
         Skill skill = skillRepository.save(new Skill(skillDto));
         return new SkillDto(skill);
+    }
+
+    public Skill findByName(String name) {
+        return skillRepository.findByName(name);
     }
 
 }

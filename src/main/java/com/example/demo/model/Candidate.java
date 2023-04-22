@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.CandidateDto;
+import com.example.demo.dto.SkillDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -53,6 +55,13 @@ public class Candidate {
         this.contactNumber = contactNumber;
         this.email = email;
         this.skills = skills;
+    }
+
+    public Candidate(CandidateDto candidateDto) {
+        this.name = candidateDto.getName();
+        this.dateOfBirth = candidateDto.getDateOfBirth();
+        this.contactNumber = candidateDto.getContactNumber();
+        this.email = candidateDto.getEmail();
     }
 
     // endregion

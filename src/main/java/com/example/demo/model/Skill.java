@@ -12,7 +12,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, name = "skill_name")
+    @Column(nullable = false, name = "skill_name", unique = true)
     @Length(min = 2, max = 50)
     private String name;
 

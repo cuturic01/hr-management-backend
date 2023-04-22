@@ -18,7 +18,7 @@ public class SkillController {
 
     @PostMapping(value = "/add-skill", consumes = "application/json")
     public ResponseEntity<?> addSkill(@RequestBody @Validated SkillDto skillDto) {
-        return new ResponseEntity<>(this.skillService.createSkill(skillDto), HttpStatus.OK);
+        return new ResponseEntity<>(this.skillService.addSkill(skillDto), HttpStatus.OK);
     }
 
 }
