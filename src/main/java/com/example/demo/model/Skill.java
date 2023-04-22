@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.SkillDto;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,6 +23,10 @@ public class Skill {
     public Skill(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Skill(SkillDto skillDto) {
+        this.name = skillDto.getName();
     }
 
     // endregion

@@ -1,4 +1,7 @@
 package com.example.demo.repository;
 
-public interface SkillRepository {
+import com.example.demo.model.Skill;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SkillRepository extends JpaRepository<Skill, Integer> {
 }
