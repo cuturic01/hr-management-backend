@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import com.example.demo.dto.CandidateDto;
-import com.example.demo.dto.SkillDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;

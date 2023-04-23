@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.SkillDto;
+import com.example.demo.exception.SkillDoesNotExistException;
 import com.example.demo.model.Skill;
 import com.example.demo.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class SkillService {
 
     public Skill findByName(String name) {
         return skillRepository.findByName(name);
+    }
+
+    public Skill findById(Integer id) throws SkillDoesNotExistException {
+        return this.skillRepository.findById(id)
+                .orElseThrow(() -> new SkillDoesNotExistException("Skill does not exist!"));
     }
 
 }

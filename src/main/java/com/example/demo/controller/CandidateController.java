@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CandidateDto;
+import com.example.demo.exception.AlreadyHasSkillException;
+import com.example.demo.exception.CandidateDoesNotExistException;
+import com.example.demo.exception.DoesNotHaveSkillException;
+import com.example.demo.exception.SkillDoesNotExistException;
 import com.example.demo.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,26 +25,47 @@ public class CandidateController {
         return new ResponseEntity<>(candidateService.addCandidate(candidateDto), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/update-skills/{candidate-id}/{skill-id}", consumes = "application/json")
+    @PutMapping(value = "/update-skills/{candidate-id}/{skill-id}")
     public ResponseEntity<?> updateSkills(@PathVariable("candidate-id") Integer candidateId,
                                           @PathVariable("skill-id") Integer skillId) {
-        return null;
+        try {
+            return new ResponseEntity<>(this.candidateService.updateSkills(candidateId, skillId), HttpStatus.OK);
+        } catch (CandidateDoesNotExistException | SkillDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (AlreadyHasSkillException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping(value = "/remove-skills/{candidate-id}/{skill-id}", consumes = "application/json")
+    @PutMapping(value = "/remove-skills/{candidate-id}/{skill-id}")
     public ResponseEntity<?> removeSkill(@PathVariable("candidate-id") Integer candidateId,
                                           @PathVariable("skill-id") Integer skillId) {
-        return null;
+        try {
+            return new ResponseEntity<>(this.candidateService.removeSkill(candidateId, skillId), HttpStatus.OK);
+        } catch (CandidateDoesNotExistException | SkillDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (DoesNotHaveSkillException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @DeleteMapping(value = "/remove-candidate/{candidate-id}", consumes = "application/json")
+    @DeleteMapping(value = "/remove-candidate/{candidate-id}")
     public ResponseEntity<?> removeCandidate(@PathVariable("candidate-id") Integer candidateId) {
-        return null;
+        try {
+            this.candidateService.removeCandidate(candidateId);
+            return new ResponseEntity<>("Candidate removed!", HttpStatus.OK);
+        } catch (CandidateDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping(value = "/search-by-name/{candidate-name}", consumes = "application/json")
+    @GetMapping(value = "/search-by-name/{candidate-name}")
     public ResponseEntity<?> searchByName(@PathVariable("candidate-name") String candidateName) {
-        return null;
+        try {
+            return new ResponseEntity<>(this.candidateService.findByName(candidateName), HttpStatus.OK);
+        } catch (CandidateDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(value = "/search-by-skills", consumes = "application/json")
