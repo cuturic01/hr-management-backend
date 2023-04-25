@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CandidateDto;
+import com.example.demo.dto.SkillDto;
 import com.example.demo.exception.AlreadyHasSkillException;
 import com.example.demo.exception.CandidateDoesNotExistException;
 import com.example.demo.exception.DoesNotHaveSkillException;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -69,8 +72,12 @@ public class CandidateController {
     }
 
     @GetMapping(value = "/search-by-skills", consumes = "application/json")
-    public ResponseEntity<?> searchBySkills() {
-        return null;
+    public ResponseEntity<?> searchBySkills(@RequestBody List<SkillDto> skills) {
+        try {
+            return new ResponseEntity<>(this.candidateService.findBySkills(skills), HttpStatus.OK);
+        } catch (SkillDoesNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.CandidateDto;
+import com.example.demo.dto.SkillDto;
 import com.example.demo.exception.AlreadyHasSkillException;
 import com.example.demo.exception.CandidateDoesNotExistException;
 import com.example.demo.exception.DoesNotHaveSkillException;
@@ -11,6 +12,7 @@ import com.example.demo.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +68,19 @@ public class CandidateService {
     public CandidateDto findByName(String name) throws CandidateDoesNotExistException {
         return new CandidateDto(this.candidateRepository.findByName(name)
                 .orElseThrow(() -> new CandidateDoesNotExistException("Candidate does not exist!")));
+    }
+
+    public List<CandidateDto> findBySkills(List<SkillDto> skills) throws SkillDoesNotExistException {
+        for (SkillDto skillDto : skills)
+            if (skillService.findById(skillDto.getId()) == null)
+                throw  new SkillDoesNotExistException("Skill does not exist!");
+
+        List<Candidate> candidates = this.candidateRepository.findBySkills(skills
+                        .stream()
+                        .map(SkillDto::getId)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new SkillDoesNotExistException("Skill does not exist!"));
+        return candidates.stream().map(CandidateDto::new).collect(Collectors.toList());
     }
 
 }
