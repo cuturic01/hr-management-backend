@@ -70,7 +70,8 @@ public class CandidateService {
                 .orElseThrow(() -> new CandidateDoesNotExistException("Candidate does not exist!")));
     }
 
-    public List<CandidateDto> findBySkills(List<SkillDto> skills) throws SkillDoesNotExistException {
+    public List<CandidateDto> findBySkills(List<SkillDto> skills) throws SkillDoesNotExistException,
+            CandidateDoesNotExistException {
         for (SkillDto skillDto : skills)
             if (skillService.findById(skillDto.getId()) == null)
                 throw  new SkillDoesNotExistException("Skill does not exist!");
@@ -79,8 +80,9 @@ public class CandidateService {
                         .stream()
                         .map(SkillDto::getId)
                         .collect(Collectors.toList()))
-                .orElseThrow(() -> new SkillDoesNotExistException("Skill does not exist!"));
+                .orElseThrow(() -> new CandidateDoesNotExistException("Candidate does not exist!"));
         return candidates.stream().map(CandidateDto::new).collect(Collectors.toList());
     }
+
 
 }

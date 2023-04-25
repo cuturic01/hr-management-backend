@@ -75,7 +75,7 @@ public class CandidateController {
     public ResponseEntity<?> searchBySkills(@RequestBody List<SkillDto> skills) {
         try {
             return new ResponseEntity<>(this.candidateService.findBySkills(skills), HttpStatus.OK);
-        } catch (SkillDoesNotExistException e) {
+        } catch (SkillDoesNotExistException | CandidateDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
