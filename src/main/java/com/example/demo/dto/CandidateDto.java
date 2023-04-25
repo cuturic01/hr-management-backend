@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Candidate;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
@@ -16,15 +17,19 @@ public class CandidateDto {
 
     @Length(min = 2, max = 50)
     @Pattern(regexp = "^[A-Za-z ]*$", message = "The name can only contain letters.")
+    @Schema(example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private String name;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Schema(example = "01-01-2001", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDate dateOfBirth;
 
     @Pattern(regexp = "^[^a-zA-Z]*$")
+    @Schema(example = "+38162547126", accessMode = Schema.AccessMode.READ_ONLY)
     private String contactNumber;
 
     @Email
+    @Schema(example = "example@email.com", accessMode = Schema.AccessMode.READ_ONLY)
     private String email;
 
     private List<SkillDto> skills;
