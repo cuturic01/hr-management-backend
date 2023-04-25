@@ -41,9 +41,6 @@ public class CandidateServiceTest {
     @MockBean
     private CandidateRepository candidateRepository;
 
-    @MockBean
-    private SkillRepository skillRepository;
-
     private Candidate createDummyCandidate() {
         List<Skill> skills = new ArrayList<>();
 
