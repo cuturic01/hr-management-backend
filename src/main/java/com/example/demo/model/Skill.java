@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.SkillDto;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,7 +12,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, name = "skill_name")
+    @Column(nullable = false, name = "skill_name", unique = true)
     @Length(min = 2, max = 50)
     private String name;
 
@@ -22,6 +23,10 @@ public class Skill {
     public Skill(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Skill(SkillDto skillDto) {
+        this.name = skillDto.getName();
     }
 
     // endregion
